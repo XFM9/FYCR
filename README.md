@@ -1,3 +1,8 @@
+<br>
+
+<img src="Image_Preview.png" width="450"/>
+
+<br>
 # YouTube Downloader (yt-dlp)
 
 Console YouTube downloader written in Python using **yt-dlp**.  
