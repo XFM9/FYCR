@@ -1,6 +1,7 @@
 import sys
 import os
 import yt_dlp
+import re
 from yt_dlp import YoutubeDL
 from urllib.parse import urlparse
 from colorama import Fore, init
@@ -15,8 +16,8 @@ def Main_Menu():
  \___  / |____/  \___  >__|_ \  / ______|\____/|____/   \______  /\____/|   __// ____|  |____|_  /__\___  /|___|  /__|  
      \/              \/     \/  \/                             \/       |__|   \/              \/  /_____/      \/    
     """ + Fore.GREEN +  """[""" + Fore.WHITE + """ 1 """ + Fore.GREEN + """]""" + Fore.GREEN + """ Youtube Downloader""" + Fore.RED + """               ⠀⠀⠀⠀⠀⠀              """ + Fore.RED +  """          ⠀⠀ ⣠⣿⣋⣀⣀⣀⢀⣀⣀⣀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀
-    """ + Fore.RED + """[ 00 ] Exit""" + Fore.RED + """                                                      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢾⡤⠤⠤⢤⡤
-                                                                     ⣿⣿⣿⠿⠟⠉⠉⠀⣹⣿⣋⣻⣿⡇⠀⠉⠉⠉⠉⠉⠉⠉⠉⠁⠈⠀⠀⠀⠀⠀
+    """ + Fore.GREEN +  """[""" + Fore.WHITE + """ 2 """ + Fore.GREEN + """]""" + Fore.GREEN + """ Tik-Tok Downloader""" + Fore.RED + """                                         ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢾⡤⠤⠤⢤⡤
+    """ + Fore.RED + """[ 00 ] Exit""" + Fore.RED + """                                                      ⣿⣿⣿⠿⠟⠉⠉⠀⣹⣿⣋⣻⣿⡇⠀⠉⠉⠉⠉⠉⠉⠉⠉⠁⠈⠀⠀⠀⠀⠀
                                                                      ⠈⠉⠀⠀⠀⠀⠀⣴⡿⠁⠀⢸⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   """ + Fore.BLUE + """Created by:""" + Fore.WHITE +  """ XFM9""" + Fore.RED + """
         ⠀⠀⠀⠀⠀⠀⠀⠀                                                             ⠁⠀⠀⠘⣿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
     
@@ -136,7 +137,63 @@ def Youtube_Downloader():
             input("Press Enter to return to menu...")
             Main_Menu()
 
-Menu_Com = {"1": Youtube_Downloader}
+def Tik_Tok_Downloader():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print(Fore.BLUE + fr"""  _____ _ _       _____     _      ____                      _                 _           
+ |_   _(_) | __  |_   _|__ | | __ |  _ \  _____      ___ __ | | ___   __ _  __| | ___ _ __ 
+   | | | | |/ /____| |/ _ \| |/ / | | | |/ _ \ \ /\ / / '_ \| |/ _ \ / _` |/ _` |/ _ \ '__|
+   | | | |   <_____| | (_) |   <  | |_| | (_) \ V  V /| | | | | (_) | (_| | (_| |  __/ |   
+   |_| |_|_|\_\    |_|\___/|_|\_\ |____/ \___/ \_/\_/ |_| |_|_|\___/ \__,_|\__,_|\___|_|""")
+    
+    
+    print("")
+    print(Fore.CYAN + "[" + Fore.WHITE + " 1 "+ Fore.CYAN + "]" " Install Video")
+    print(Fore.CYAN + "[" + Fore.WHITE + " 2 "+ Fore.CYAN + "]" " Install Audio")
+    print(Fore.RED + "[ 00 ] Exit")
+    
+    print("")
+    TT_ID = str(input("Enter ID: "))
+    
+    if TT_ID not in ("1", "2", "3", "00"):
+        print(Fore.RED + "ERROR: Invalid Сhoice")
+    else:
+        if TT_ID == "00":
+            print(Fore.GREEN + "Bye!")
+            sys.exit(0)
+            
+        Link = input("Enter Tik-Tok Link: ")
+        
+        if TT_ID == "1":
+            ydl_opts = {
+                'outtmpl': '%(title)s.%(ext)s'
+            }
+            
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([Link])
+                
+            input("Press Enter to return to menu...")
+            Main_Menu()
+        
+        elif TT_ID == "2":
+            ydl_opts = {
+                "format": "bestaudio/best",
+                "outtmpl": "%(title)s.%(ext)s",
+                "postprocessors": [{
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "192",
+                }],
+            }
+
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([Link])
+            
+            input("Press Enter to return to menu...")
+            Main_Menu()
+    
+    
+
+Menu_Com = {"1": Youtube_Downloader, "2": Tik_Tok_Downloader}
 
 if __name__ == "__main__":
     try:
